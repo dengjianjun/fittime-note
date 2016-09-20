@@ -4,7 +4,11 @@
 
 1. 安装node 0.122. 安装fis3，sudo nom i -g fis33. fis3 -v 4. git clone 代码地址5. sudo fis3 server info 查看当前服务是什么服务
 
-`sudo fis3 server start 启动服务 —type 启动何种服务 -p 改端口 sudo fis3 server -h 帮助文档`
+`sudo fis3 server start 启动服务`
+
+` —type 启动何种服务 -p 改端口 `
+
+`sudo fis3 server -h 帮助文档`
 
 1. sudo fis3 server start —type jello -p 9090，可能会提示插件找不到，根据提示安装对应插件，优先fis3-开头的安装2. 插件安装方式 sudo npm i -g 对应插件名称3. sudo fis3 release 编译 -w监听 -d 输出到某个指定路径
 
