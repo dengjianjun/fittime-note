@@ -68,6 +68,154 @@ $('#ftLayout').on('mousedown',function(e) { //只允许鼠标左键拖动 if (e.
     })
     ```
 
+12. jsmartk中定义变量`{%assign "repeat" $action.repeats[0]%}`
+
+13. jQuery禁用浏览器的前进后退按钮
+
+```javascript
+$(document).ready(function() {
+     window.history.forward(1);
+     //OR
+     window.history.forward(-1);
+});
+```
+
+14. 如果这些CDN上的jQuery服务不可用，我们还可以通过以下代码来切换到本地服务器的jQuery版本：
+
+```html
+<script type="text/javascript" language="Javascript" src="http://ajax.aspnetcdn.com/ajax/jquery/jquery-1.4.1.min.js "></script>
+<script type='text/javascript'>//<![CDATA[
+if (typeof jQuery == 'undefined') {
+document.write(unescape("%3Cscript src='/Script/jquery-1.4.1.min.js' type='text/javascript' %3E%3C/script%3E"));
+}//]]>
+</script>
+```
+
+15. `preventDefault()` 方法阻止元素发生默认的行为
+    `stopPropagation()`该方法将停止事件的传播
+
+    低版本ie下需要用`window.event.returnValue = false;`取消事件的默认行为 
+
+16. 鼠标移动到表单元素松开，有时不会触发mouseup事件，在做拖动改变位置时要注意，只需要将被拖动的元素前加个蒙层即可解决
+
+17. js获取视频时长
+
+```javascript
+// create the video element but don't add it to the page
+var vid = document.createElement('video');
+document.querySelector('#input').addEventListener('change', function() {
+  // create url to use as the src of the video
+  var fileURL = URL.createObjectURL(this.files[0]);
+  vid.src = fileURL;
+  // wait for duration to change from NaN to the actual duration
+  vid.ondurationchange = function() {
+    alert(this.duration);
+  };
+});
+```
+
+18. 关于移动使用fixed定位做蒙层，弹框中有输入框中存在的问题：
+    1. android上键盘可能会挡住input，让弹框的子盒子离窗口顶部更近可解决，ios下无此问题
+    2. ios上出键盘，下面部分蒙层盖不住，可以点击，原因是ios对`positon:fixed;`处理不好
+19. 浏览器判断
+
+```javascript
+var ua = navigator.userAgent.toLowerCase();
+function isWeixinBrowser() {
+    return (/micromessenger/.test(ua)) ? true : false;
+}
+
+function isQQBrowser() {
+    return (ua.match(/QQ/i) == "qq") ? true : false;
+}
+
+function isAndroid() {
+    return (ua.match(/Android/i) != null) ? true : false;
+}
+
+function isIos() {
+    return (ua.match(/iPhone|iPod/i) != null) ? true : false;
+}
+```
+
+20. js启动app
+
+```javascript
+var timer;
+var config = {
+    /*scheme:必须*/
+    scheme: 'xxapp://aa.com',
+    download_url: '',
+    timeout: 1000
+};
+
+function openclient(params) {
+    var myConf = $.extend(config, params);
+    var startTime = Date.now();
+    if (isWeixinBrowser() || isQQBrowser()) {
+            window.location = 'https://redirect.bb.net/?source=fittime&redirect=http%3A%2F%2Fa.app.qq.com%2Fo%2Fsimple.jsp%3Fpkgname%3Dcom.aa.app';
+    } else {
+        if (isAndroid()) {
+            var ifr = document.createElement('iframe');
+            ifr.src = myConf.scheme;
+            ifr.style.display = 'none';
+            document.body.appendChild(ifr);
+            timer = setTimeout(function() {
+                var endTime = Date.now();
+                if (!startTime || endTime - startTime < myConf.timeout + 200) {
+                    window.location = myConf.download_url;
+                }
+            }, myConf.timeout);
+        } else {
+            window.location = myConf.scheme;
+        }
+    }
+}
+
+document.addEventListener('visibilitychange', function() {
+    var isHidden = document.hidden;
+    if (isHidden) {
+        clearTimeout(timer);
+        // 动画停止
+        // 服务器轮询停止 等等
+    } else {
+        // $.alert('页面开始');
+        // 动画开始
+        // 服务器轮询
+    }
+});
+
+window.onblur = function() {
+    clearTimeout(timer);
+}
+window.onpagehide = function() {
+    clearTimeout(timer);
+}
+```
+
+21. `Node.insertBefore()` 方法，在当前节点的某个子节点之前再插入一个子节点。
+
+```
+<div id="parentElement">
+  <span id="childElement">foo bar</span>
+</div>
+<script>
+// Create a new, plain <span> element
+var sp1 = document.createElement("span");
+// Get a reference to the element, before we want to insert the element
+var sp2 = document.getElementById("childElement");
+// Get a reference to the parent element
+var parentDiv = sp2.parentNode;
+// Insert the new element into the DOM before sp2
+parentDiv.insertBefore(sp1, sp2);
+</script>
+```
+
+22. `getComputedStyle()`与`currentStyle`
+    currentStyle是IE浏览器自娱自乐的一个属性，其与element.style可以说是近亲，至少在使用形式上类似，element.currentStyle，差别在于element.currentStyle返回的是元素当前应用的最终CSS属性值（包括外链CSS文件，页面中嵌入的<style>属性等）。
+    因此，从作用上将，getComputedStyle方法与currentStyle属性走的很近，形式上则style与currentStyle走的近。不过，currentStyle属性貌似不支持伪类样式获取，这是与getComputedStyle方法的差异，也是jQuery.css()方法无法体现的一点。
+23. 图片基本处理（imageView2）http://blog.csdn.net/quiet_girl/article/details/50721119
+
 ## css
 
 1. 两张图片之间有条白线，可能是图片宽高度与屏幕除不尽，渲染误差造成的
@@ -80,4 +228,6 @@ $('#ftLayout').on('mousedown',function(e) { //只允许鼠标左键拖动 if (e.
 1. SK3-7402-6134-9955-3470-7947 sketch key
 2. webstorm如何实现代码全局搜索，试过设置ctrl+Shift+N和ctrl+Shift+alt+N但是只能查找到文件位置
    control+shift+F
+3. sass --style expanded --watch css:css --style compressed
+4. browser-sync start --server --files "*.html,css/**.scss,js/**.js" --no-notify
 
