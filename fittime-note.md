@@ -58,6 +58,16 @@
 $('#ftLayout').on('mousedown',function(e) { //只允许鼠标左键拖动 if (e.which != 1) { return; }})
 ```
 
+11. 滑动鼠标加载更多数据
+
+    ```javascript
+    $(window).scroll(function(){
+    if($(document).scrollTop()==0){
+        //加载更多数据
+    }
+    })
+    ```
+
 ## css
 
 1. 两张图片之间有条白线，可能是图片宽高度与屏幕除不尽，渲染误差造成的
@@ -68,4 +78,6 @@ $('#ftLayout').on('mousedown',function(e) { //只允许鼠标左键拖动 if (e.
 ## other
 
 1. SK3-7402-6134-9955-3470-7947 sketch key
+2. webstorm如何实现代码全局搜索，试过设置ctrl+Shift+N和ctrl+Shift+alt+N但是只能查找到文件位置
+   control+shift+F
 
