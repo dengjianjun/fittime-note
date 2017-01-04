@@ -215,6 +215,21 @@ parentDiv.insertBefore(sp1, sp2);
     currentStyle是IE浏览器自娱自乐的一个属性，其与element.style可以说是近亲，至少在使用形式上类似，element.currentStyle，差别在于element.currentStyle返回的是元素当前应用的最终CSS属性值（包括外链CSS文件，页面中嵌入的<style>属性等）。
     因此，从作用上将，getComputedStyle方法与currentStyle属性走的很近，形式上则style与currentStyle走的近。不过，currentStyle属性貌似不支持伪类样式获取，这是与getComputedStyle方法的差异，也是jQuery.css()方法无法体现的一点。
 23. 图片基本处理（imageView2）http://blog.csdn.net/quiet_girl/article/details/50721119
+24. ios播放视频会自动全屏，android需要手动处理
+
+```javascript
+function launchFullScreen(element) {
+  if (element.requestFullScreen) {
+    element.requestFullScreen();
+  } else if (element.mozRequestFullScreen) {
+    element.mozRequestFullScreen();
+  } else if (element.webkitRequestFullScreen) {
+    element.webkitRequestFullScreen();
+  }
+}
+```
+
+
 
 ## css
 
